@@ -1272,33 +1272,18 @@ Bot.prototype.dm = function (person, format, message) {
 Bot.prototype.sendCard = function (cardJson, fallbackText) {
   if (!this.active) {
     let msg = 'bot.sendCard() failed, bot is not in active state';
+    if ((this.framework) && ('membershipRules' in this.framework)) {
+      msg += ' due to membership rules.  Use bot.webex.message.create() to override';
+    }
     return when.reject(new Error(msg));
   }
 
-  let messageObj = {
-    markdown: fallbackText || 'Hello World!', // Fallback text if cards are not supported
-    attachments: [{
-      contentType: 'application/vnd.microsoft.card.adaptive',
-      content: cardJson || {
-        "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-        "type": "AdaptiveCard",
-        "version": "1.0",
-        "body": [
-          {
-            "type": "TextBlock",
-            "text": "Hello World!",
-            "weight": "bolder",
-            "size": "large"
-          }
-        ]
-      }
-    }]
-  };
-
+  let messageObj = buildCardMsgObj(cardJson, 
+    this.framework.messageFormat, fallbackText);
+  // send constructed message object to room
   messageObj.roomId = this.room.id;
   return this.framework.webex.messages.create(messageObj);
 };
-
 
 /**
  * Send a Card to a 1-1 space.

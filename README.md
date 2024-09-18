@@ -494,11 +494,7 @@ Creates an instance of the Framework.
 
 **Example**  
 ```js
-var options = {
-  webhookUrl: 'http://myserver.com/framework',
-  token: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'
-};
-var framework = new Framework(options);
+var options = {  webhookUrl: 'http://myserver.com/framework',  token: 'Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u'};var framework = new Framework(options);
 ```
 <a name="Framework+options"></a>
 
@@ -543,29 +539,18 @@ Tests, and then sets a new Webex Token.
 
 **Example**  
 ```js
-framework.setWebexToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')
-  .then((token) => {
-     console.log('token updated to: ' + token);
-  });
+framework.setWebexToken('Tm90aGluZyB0byBzZWUgaGVyZS4uLiBNb3ZlIGFsb25nLi4u')  .then((token) => {     console.log('token updated to: ' + token);  });
 ```
 <a name="Framework+getWebexSDK"></a>
 
 ### framework.getWebexSDK() ⇒ <code>object</code>
-Accessor for Webex SDK instance
-
-Access SDK functionality described in [SDK Reference](https://developer.webex.com/docs/sdks/browser#sdk-api-reference)
+Accessor for Webex SDK instanceAccess SDK functionality described in [SDK Reference](https://developer.webex.com/docs/sdks/browser#sdk-api-reference)
 
 **Kind**: instance method of [<code>Framework</code>](#Framework)  
 **Returns**: <code>object</code> - - Framework's Webex SDK instance  
 **Example**  
 ```js
-let webex = framework.getWebexSDK();
-webex.people.get(me)
-  .then(person => {
-    console.log('SDK instantiated by: ' + person.displayName);
-  }).catch(e => {
-    console.error('SDK failed to lookup framework user: ' + e.message);
-  });
+let webex = framework.getWebexSDK();webex.people.get(me)  .then(person => {    console.log('SDK instantiated by: ' + person.displayName);  }).catch(e => {    console.error('SDK failed to lookup framework user: ' + e.message);  });
 ```
 <a name="Framework+stop"></a>
 
@@ -600,8 +585,7 @@ framework.restart();
 <a name="Framework+getBotByRoomId"></a>
 
 ### framework.getBotByRoomId(roomId) ⇒ <code>object</code>
-Get bot object associated with roomId.
-Returns null if no object exists
+Get bot object associated with roomId.Returns null if no object exists
 
 **Kind**: instance method of [<code>Framework</code>](#Framework)  
 **Returns**: <code>object</code> - - found bot object or null  
@@ -612,12 +596,7 @@ Returns null if no object exists
 
 **Example**  
 ```js
-let bot = framework.getBotByRoomId(roomId);
-if (bot) {
-  bot.say('Hi, I\'m the bot in this room!');
-} else {
-  console.log('Could not find bot for room ID: ' + roomId);
-}
+let bot = framework.getBotByRoomId(roomId);if (bot) {  bot.say('Hi, I\'m the bot in this room!');} else {  console.log('Could not find bot for room ID: ' + roomId);}
 ```
 <a name="Framework+hears"></a>
 
@@ -635,43 +614,19 @@ Add action to be performed when bot hears a phrase.
 
 **Example**  
 ```js
-// using a string to match first word and defines help text
-framework.hears('/say', (bot, trigger) {
-  bot.say(trigger.args.slice(1, trigger.args.length - 1));
-}, '/say <greeting> - Responds with a greeting');
+// using a string to match first word and defines help textframework.hears('/say', (bot, trigger) {  bot.say(trigger.args.slice(1, trigger.args.length - 1));}, '/say <greeting> - Responds with a greeting');
 ```
 **Example**  
 ```js
-// using regex to match across entire message
-framework.hears(/(^| )beer( |.|$)/i, (bot, trigger) => {
-  bot.say('Enjoy a beer, %s! 🍻', trigger.person.displayName);
-});
+// using regex to match across entire messageframework.hears(/(^| )beer( |.|$)/i, (bot, trigger) => {  bot.say('Enjoy a beer, %s! 🍻', trigger.person.displayName);});
 ```
 **Example**  
 ```js
-// echo user input using trigger.prompt
-framework.hears('echo', (bot, trigger) => {
-  if (trigger.command == 'echo') {
-    bot.say('markdown', `You said: ${trigger.prompt}`);
-  }
-}, '**echo** - I\'ll echo back the rest of your message');
+// echo user input using trigger.promptframework.hears('echo', (bot, trigger) => {  if (trigger.command == 'echo') {    bot.say('markdown', `You said: ${trigger.prompt}`);  }}, '**echo** - I\'ll echo back the rest of your message');
 ```
 **Example**  
 ```js
-// create hears handlers that use the helpText and preference params
-// This handler has a lower preference than the catchall
-// and inlcudes a built-in message for the showHelp command
-framework.hears('help', (bot, trigger) => {
-  bot.say('markdown', framework.showHelp());
-}, 'help - shows information about commands I understand', 0);
-
-// This catchall handler does not include a help  message, but it
-// does set a high preference value so it will not be called if any
-// handlers with a lower preference score match
-framework.hears(/.*&#8205;/gim, (bot, trigger) => {
-  bot.say('I didn\'t quite understand that.');
-  bot.say('markdown;, framework.showHelp());
- }, 99999);
+// create hears handlers that use the helpText and preference params// This handler has a lower preference than the catchall// and inlcudes a built-in message for the showHelp commandframework.hears('help', (bot, trigger) => {  bot.say('markdown', framework.showHelp());}, 'help - shows information about commands I understand', 0);// This catchall handler does not include a help  message, but it// does set a high preference value so it will not be called if any// handlers with a lower preference score matchframework.hears(/.*&#8205;/gim, (bot, trigger) => {  bot.say('I didn\'t quite understand that.');  bot.say('markdown;, framework.showHelp()); }, 99999);
 ```
 <a name="Framework+clearHears"></a>
 
@@ -686,11 +641,7 @@ Remove a "framework.hears()" entry.
 
 **Example**  
 ```js
-// using a string to match first word and defines help text
-var hearsHello = framework.hears('/framework', (bot, trigger, id) => {
-  bot.say('Hello %s!', trigger.person.displayName);
-});
-framework.clearHears(hearsHello);
+// using a string to match first word and defines help textvar hearsHello = framework.hears('/framework', (bot, trigger, id) => {  bot.say('Hello %s!', trigger.person.displayName);});framework.clearHears(hearsHello);
 ```
 <a name="Framework+showHelp"></a>
 
@@ -706,9 +657,7 @@ Display help for registered Framework Commands.
 
 **Example**  
 ```js
-framework.hears('/help', (bot, trigger, id) => {
-  bot.say('markdown', framework.showHelp());
-});
+framework.hears('/help', (bot, trigger, id) => {  bot.say('markdown', framework.showHelp());});
 ```
 <a name="Framework+setAuthorizer"></a>
 
@@ -723,18 +672,7 @@ Attaches authorizer function.
 
 **Example**  
 ```js
-function myAuthorizer(bot, trigger, id) {
-  if(trigger.personEmail === 'john@test.com') {
-    return true;
-  }
-  else if(trigger.personDomain === 'test.com') {
-    return true;
-  }
-  else {
-    return false;
-  }
-}
-framework.setAuthorizer(myAuthorizer);
+function myAuthorizer(bot, trigger, id) {  if(trigger.personEmail === 'john@test.com') {    return true;  }  else if(trigger.personDomain === 'test.com') {    return true;  }  else {    return false;  }}framework.setAuthorizer(myAuthorizer);
 ```
 <a name="Framework+clearAuthorizer"></a>
 
@@ -760,8 +698,7 @@ Defines storage backend.
 
 **Example**  
 ```js
-// define memory store (default if not specified)
-framework.storageDriver(new MemStore());
+// define memory store (default if not specified)framework.storageDriver(new MemStore());
 ```
 <a name="Framework+use"></a>
 
@@ -780,18 +717,7 @@ framework.use('events.js');
 ```
 **Example**  
 ```js
-// events.js
-module.exports = (framework) => {
-  framework.on('spawn', (bot) => {
-    console.log('new bot spawned in room: %s', bot.myroom.title);
-  });
-  framework.on('despawn', (bot) => {
-    console.log('bot despawned in room: %s', bot.myroom.title);
-  });
-  framework.on('messageCreated', (message, bot) => {
-    console.log('"%s" said "%s" in room "%s"', message.personEmail, message.text, bot.myroom.title);
-  });
-};
+// events.jsmodule.exports = (framework) => {  framework.on('spawn', (bot) => {    console.log('new bot spawned in room: %s', bot.myroom.title);  });  framework.on('despawn', (bot) => {    console.log('bot despawned in room: %s', bot.myroom.title);  });  framework.on('messageCreated', (message, bot) => {    console.log('"%s" said "%s" in room "%s"', message.personEmail, message.text, bot.myroom.title);  });};
 ```
 <a name="Framework+checkMembershipRules"></a>
 
@@ -802,8 +728,7 @@ Private function to check for memembership rules in config
 <a name="Framework+myEmit"></a>
 
 ### framework.myEmit()
-Private emit functions that check the membership rules
-before emitting and event
+Private emit functions that check the membership rulesbefore emitting and event
 
 **Kind**: instance method of [<code>Framework</code>](#Framework)  
 <a name="Bot"></a>
@@ -881,24 +806,13 @@ bot.exit();
 <a name="Bot+getWebexSDK"></a>
 
 ### bot.getWebexSDK() ⇒ <code>object</code>
-Accessor for Webex SDK instance
-
-This is a convenience and returns the same shared Webex SDK instance 
-that is returned by a call to framework.getWebexSDK()
-
-Access SDK functionality described in [SDK Reference](https://developer.webex.com/docs/sdks/browser#sdk-api-reference)
+Accessor for Webex SDK instanceThis is a convenience and returns the same shared Webex SDK instance that is returned by a call to framework.getWebexSDK()Access SDK functionality described in [SDK Reference](https://developer.webex.com/docs/sdks/browser#sdk-api-reference)
 
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 **Returns**: <code>object</code> - - Bot's Webex SDK instance  
 **Example**  
 ```js
-let webex = bot.getWebexSDK();
-webex.people.get(me)
-  .then(person => {
-    console.log('SDK instantiated by: ' + person.displayName);
-  }).catch(e => {
-    console.error('SDK failed to lookup framework user: ' + e.message);
-  });
+let webex = bot.getWebexSDK();webex.people.get(me)  .then(person => {    console.log('SDK instantiated by: ' + person.displayName);  }).catch(e => {    console.error('SDK failed to lookup framework user: ' + e.message);  });
 ```
 <a name="Bot+add"></a>
 
@@ -915,22 +829,15 @@ Instructs Bot to add person(s) to room.
 
 **Example**  
 ```js
-// add one person to room by email
-bot.add('john@test.com');
+// add one person to room by emailbot.add('john@test.com');
 ```
 **Example**  
 ```js
-// add one person as moderator to room by email
-bot.add('john@test.com', true)
-  .catch((err) => {
-    // log error if unsuccessful
-    console.log(err.message);
-  });
+// add one person as moderator to room by emailbot.add('john@test.com', true)  .catch((err) => {    // log error if unsuccessful    console.log(err.message);  });
 ```
 **Example**  
 ```js
-// add 3 people to room by email
-bot.add(['john@test.com', 'jane@test.com', 'bill@test.com']);
+// add 3 people to room by emailbot.add(['john@test.com', 'jane@test.com', 'bill@test.com']);
 ```
 <a name="Bot+remove"></a>
 
@@ -946,13 +853,11 @@ Instructs Bot to remove person from room.
 
 **Example**  
 ```js
-// remove one person to room by email
-bot.remove('john@test.com');
+// remove one person to room by emailbot.remove('john@test.com');
 ```
 **Example**  
 ```js
-// remove 3 people from room by email
-bot.remove(['john@test.com', 'jane@test.com', 'bill@test.com']);
+// remove 3 people from room by emailbot.remove(['john@test.com', 'jane@test.com', 'bill@test.com']);
 ```
 <a name="Bot+getModerators"></a>
 
@@ -962,10 +867,7 @@ Get room moderators.
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 **Example**  
 ```js
-bot.getModerators()
-  .then((moderators) => {
-    console.log(moderators);
-  });
+bot.getModerators()  .then((moderators) => {    console.log(moderators);  });
 ```
 <a name="Bot+newRoom"></a>
 
@@ -983,11 +885,7 @@ Create new room with people by email
 <a name="Bot+newTeamRoom"></a>
 
 ### bot.newTeamRoom(name, emails) ⇒ [<code>Promise.&lt;Bot&gt;</code>](#Bot)
-Create new Team Room
-
-This can also be done by passing an optional boolean 
-isTeam param to the newRoom() function, but this function
-is also kept for compatibility with node-flint
+Create new Team RoomThis can also be done by passing an optional boolean isTeam param to the newRoom() function, but this functionis also kept for compatibility with node-flint
 
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 
@@ -999,42 +897,27 @@ is also kept for compatibility with node-flint
 <a name="Bot+moderateRoom"></a>
 
 ### bot.moderateRoom() ⇒ [<code>Promise.&lt;Bot&gt;</code>](#Bot)
-Enable Room Moderation.
-
-This function will not work when framework was created
-using a bot token, it requires an authorized user token
+Enable Room Moderation.This function will not work when framework was createdusing a bot token, it requires an authorized user token
 
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 **Example**  
 ```js
-bot.moderateRoom()
-  .then((err) => {
-    console.log(err.message)
-  });
+bot.moderateRoom()  .then((err) => {    console.log(err.message)  });
 ```
 <a name="Bot+unmoderateRoom"></a>
 
 ### bot.unmoderateRoom() ⇒ [<code>Promise.&lt;Bot&gt;</code>](#Bot)
-Disable Room Moderation.
-
-This function will not work when framework was created
-using a bot token, it requires an authorized user token
+Disable Room Moderation.This function will not work when framework was createdusing a bot token, it requires an authorized user token
 
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 **Example**  
 ```js
-bot.unmoderateRoom()
-  .then((err) => {
-    console.log(err.message)
-  });
+bot.unmoderateRoom()  .then((err) => {    console.log(err.message)  });
 ```
 <a name="Bot+moderatorSet"></a>
 
 ### bot.moderatorSet(email(s)) ⇒ [<code>Promise.&lt;Bot&gt;</code>](#Bot)
-Assign Moderator in Room
-
-This function will not work when framework was created
-using a bot token, it requires an authorized user token
+Assign Moderator in RoomThis function will not work when framework was createdusing a bot token, it requires an authorized user token
 
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 
@@ -1044,18 +927,12 @@ using a bot token, it requires an authorized user token
 
 **Example**  
 ```js
-bot.moderatorSet('john@test.com')
-  .then((err) => {
-    console.log(err.message)
-  });
+bot.moderatorSet('john@test.com')  .then((err) => {    console.log(err.message)  });
 ```
 <a name="Bot+moderatorClear"></a>
 
 ### bot.moderatorClear(email(s)) ⇒ [<code>Promise.&lt;Bot&gt;</code>](#Bot)
-Unassign Moderator in Room
-
-This function will not work when framework was created
-using a bot token, it requires an authorized user token
+Unassign Moderator in RoomThis function will not work when framework was createdusing a bot token, it requires an authorized user token
 
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 
@@ -1065,10 +942,7 @@ using a bot token, it requires an authorized user token
 
 **Example**  
 ```js
-bot.moderatorClear('john@test.com')
-  .then((err) => {
-    console.log(err.message)
-  });
+bot.moderatorClear('john@test.com')  .then((err) => {    console.log(err.message)  });
 ```
 <a name="Bot+implode"></a>
 
@@ -1078,9 +952,7 @@ Remove a room and all memberships.
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 **Example**  
 ```js
-framework.hears('/implode', (bot, trigger) => {
-  bot.implode();
-});
+framework.hears('/implode', (bot, trigger) => {  bot.implode();});
 ```
 <a name="Bot+say"></a>
 
@@ -1096,53 +968,27 @@ Send text with optional file to room.
 
 **Example**  
 ```js
-// Simple example
-framework.hears('/hello', (bot, trigger) => {
-  bot.say('hello');
-});
+// Simple exampleframework.hears('/hello', (bot, trigger) => {  bot.say('hello');});
 ```
 **Example**  
 ```js
-// Simple example to send message and file
-framework.hears('/file', (bot, trigger) => {
-  bot.say({text: 'Here is your file!', file: 'http://myurl/file.doc'});
-}, '**file** - ask bot to post a file to the space');
+// Simple example to send message and fileframework.hears('/file', (bot, trigger) => {  bot.say({text: 'Here is your file!', file: 'http://myurl/file.doc'});}, '**file** - ask bot to post a file to the space');
 ```
 **Example**  
 ```js
-// Markdown Method 1 - Define markdown as default
-framework.messageFormat = 'markdown';
-framework.hears('/hello', (bot, trigger) => {
-  bot.say('**hello**, How are you today?');
-}, '**hello** - say hello to the bot');
+// Markdown Method 1 - Define markdown as defaultframework.messageFormat = 'markdown';framework.hears('/hello', (bot, trigger) => {  bot.say('**hello**, How are you today?');}, '**hello** - say hello to the bot');
 ```
 **Example**  
 ```js
-// Markdown Method 2 - Define message format as part of argument string
-framework.hears('/hello', (bot, trigger) => {
-  bot.say('markdown', '**hello**, How are you today?');
-}, '**hello** - say hello to the bot');
+// Markdown Method 2 - Define message format as part of argument stringframework.hears('/hello', (bot, trigger) => {  bot.say('markdown', '**hello**, How are you today?');}, '**hello** - say hello to the bot');
 ```
 **Example**  
 ```js
-// Mardown Method 3 - Use an object (use this method of bot.say() when needing to send a file in the same message as markdown text.
-framework.hears('/hello', (bot, trigger) => {
-  bot.say({markdown: '*Hello <@personEmail:' + trigger.personEmail + '|' + trigger.personDisplayName + '>*'});
-}, '**hello** - say hello to the bot');
+// Mardown Method 3 - Use an object (use this method of bot.say() when needing to send a file in the same message as markdown text.framework.hears('/hello', (bot, trigger) => {  bot.say({markdown: '*Hello <@personEmail:' + trigger.personEmail + '|' + trigger.personDisplayName + '>*'});}, '**hello** - say hello to the bot');
 ```
 **Example**  
 ```js
-// Send an Webex card by providing a fully formed message object.
-framework.hears('/card please', (bot, trigger) => {
-  bot.say({       
-     // Fallback text for clients that don't render cards is required
-     markdown: "If you see this message your client cannot render buttons and cards.",
-     attachments: [{
-       "contentType": "application/vnd.microsoft.card.adaptive",
-       "content": myCardsJson
-    }]
-   });
-  }, '**card please** - ask bot to post a card to the space');
+// Send an Webex card by providing a fully formed message object.framework.hears('/card please', (bot, trigger) => {  bot.say({            // Fallback text for clients that don't render cards is required     markdown: "If you see this message your client cannot render buttons and cards.",     attachments: [{       "contentType": "application/vnd.microsoft.card.adaptive",       "content": myCardsJson    }]   });  }, '**card please** - ask bot to post a card to the space');
 ```
 <a name="Bot+sayWithLocalFile"></a>
 
@@ -1158,10 +1004,7 @@ Send optional text message with a local file to room.
 
 **Example**  
 ```js
-// Simple example
-framework.hears('/file', (bot, trigger) => {
-  bot.sayWithLocalFile('here is a file', './image.jpg);
-}, '**file** - ask bot to send a file to the space');
+// Simple exampleframework.hears('/file', (bot, trigger) => {  bot.sayWithLocalFile('here is a file', './image.jpg);}, '**file** - ask bot to send a file to the space');
 ```
 <a name="Bot+reply"></a>
 
@@ -1178,40 +1021,20 @@ Send a threaded message reply
 
 **Example**  
 ```js
-// Simple example
-framework.hears('/hello', (bot, trigger) => {
-  bot.reply(trigger.message, 'hello back at you');
-}, '**hello** - say hello to the bot);
+// Simple exampleframework.hears('/hello', (bot, trigger) => {  bot.reply(trigger.message, 'hello back at you');}, '**hello** - say hello to the bot);
 ```
 **Example**  
 ```js
-// Reply to a card when a user hits an action.submit button
-framework.on('attachmentAction', (bot, trigger) => {
-  bot.reply(trigger.attachmentAction, 'Thanks for hitting the button');
-});
+// Reply to a card when a user hits an action.submit buttonframework.on('attachmentAction', (bot, trigger) => {  bot.reply(trigger.attachmentAction, 'Thanks for hitting the button');});
 ```
 **Example**  
 ```js
-// Reply to a reply
-// The Webex messaging API does not allow a reply to a reply.
-// If the replyTo parameter is a message object, the framework
-// will look for a parentId in that object and pass it to webex, effectively
-// allowing a framework based app to support a reply to a reply.
-framework.hears('This is a reply', (bot, trigger) => {
-  // This will work even if the parent message is already a reply
-  bot.reply(trigger.message, 'and this is a reply to a reply');
-  // This only works if replyTo is a message object.  It will fail if
-  // replyTo is the messageId of a message that is already a reply.
-  // So for example this won't work:
-  return bot.reply(trigger.message.id, 'this will fail if the message was already a reply')
-    .catch((e) => console.log(e.message));
-});
+// Reply to a reply// The Webex messaging API does not allow a reply to a reply.// If the replyTo parameter is a message object, the framework// will look for a parentId in that object and pass it to webex, effectively// allowing a framework based app to support a reply to a reply.framework.hears('This is a reply', (bot, trigger) => {  // This will work even if the parent message is already a reply  bot.reply(trigger.message, 'and this is a reply to a reply');  // This only works if replyTo is a message object.  It will fail if  // replyTo is the messageId of a message that is already a reply.  // So for example this won't work:  return bot.reply(trigger.message.id, 'this will fail if the message was already a reply')    .catch((e) => console.log(e.message));});
 ```
 <a name="Bot+dm"></a>
 
 ### bot.dm(person, [format], message) ⇒ <code>Promise.&lt;Message&gt;</code>
-Send text with optional file in a direct message. 
-This sends a message to a 1:1 room with the user (creates 1:1, if one does not already exist)
+Send text with optional file in a direct message. This sends a message to a 1:1 room with the user (creates 1:1, if one does not already exist)
 
 **Kind**: instance method of [<code>Bot</code>](#Bot)  
 
@@ -1223,39 +1046,23 @@ This sends a message to a 1:1 room with the user (creates 1:1, if one does not a
 
 **Example**  
 ```js
-// Simple example
-framework.hears('dm me', (bot, trigger) => {
-  bot.dm(trigger.person.id, 'hello');
-}, '**dm me** - ask the bot to send a message to you in a 1-1 space');
+// Simple exampleframework.hears('dm me', (bot, trigger) => {  bot.dm(trigger.person.id, 'hello');}, '**dm me** - ask the bot to send a message to you in a 1-1 space');
 ```
 **Example**  
 ```js
-// Simple example to send message and file
-framework.hears('dm me a file', (bot, trigger) => {
-  bot.dm(trigger.person.id, {text: 'Here is your file!', file: 'http://myurl/file.doc'});
-}, '**dm me a file ** - ask the bot to send a file to you in a 1-1 space');
+// Simple example to send message and fileframework.hears('dm me a file', (bot, trigger) => {  bot.dm(trigger.person.id, {text: 'Here is your file!', file: 'http://myurl/file.doc'});}, '**dm me a file ** - ask the bot to send a file to you in a 1-1 space');
 ```
 **Example**  
 ```js
-// Markdown Method 1 - Define markdown as default
-framework.messageFormat = 'markdown';
-framework.hears('dm me some rich text', (bot, trigger) => {
-  bot.dm(trigger.person.id, '**hello**, How are you today?');
-}, '**dm me some rich text** - ask the bot to send a rich text message to you in a 1-1 space');
+// Markdown Method 1 - Define markdown as defaultframework.messageFormat = 'markdown';framework.hears('dm me some rich text', (bot, trigger) => {  bot.dm(trigger.person.id, '**hello**, How are you today?');}, '**dm me some rich text** - ask the bot to send a rich text message to you in a 1-1 space');
 ```
 **Example**  
 ```js
-// Markdown Method 2 - Define message format as part of argument string
-framework.hears('dm someone', (bot, trigger) => {
-  bot.dm('john@doe.com', 'markdown', '**hello**, How are you today?');
-}, '**dm someone** - ask the bot to send a message to john@doe.com in a 1-1 space');
+// Markdown Method 2 - Define message format as part of argument stringframework.hears('dm someone', (bot, trigger) => {  bot.dm('john@doe.com', 'markdown', '**hello**, How are you today?');}, '**dm someone** - ask the bot to send a message to john@doe.com in a 1-1 space');
 ```
 **Example**  
 ```js
-// Mardown Method 3 - Use an object (use this method of bot.dm() when needing to send a file in the same message as markdown text.
-framework.hears('dm someone', (bot, trigger) => {
-  bot.dm('someone@domain.com', {markdown: '*Hello <@personId:' + trigger.person.id + '|' + trigger.person.displayName + '>*'});
-}, '**dm someone** - ask the bot to send a message and file to someone@domain.com in a 1-1 space');
+// Mardown Method 3 - Use an object (use this method of bot.dm() when needing to send a file in the same message as markdown text.framework.hears('dm someone', (bot, trigger) => {  bot.dm('someone@domain.com', {markdown: '*Hello <@personId:' + trigger.person.id + '|' + trigger.person.displayName + '>*'});}, '**dm someone** - ask the bot to send a message and file to someone@domain.com in a 1-1 space');
 ```
 <a name="Bot+sendCard"></a>
 
@@ -1276,51 +1083,7 @@ Send a Webex Teams Card to room.
 
 **Example**  
 ```js
-// Simple example
-framework.hears('card please', (bot, trigger) => {
-  bot.SendCard(
-   {
-      "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-      "type": "AdaptiveCard",
-      "version": "1.0",
-      "body": [
-          {
-              "type": "ColumnSet",
-              "columns": [
-                  {
-                      "type": "Column",
-                      "width": 2,
-                      "items": [
-                          {
-                              "type": "TextBlock",
-                              "text": "Card Sample",
-                              "weight": "Bolder",
-                              "size": "Medium"
-                          },
-                          {
-                              "type": "TextBlock",
-                              "text": "What is your name?",
-                              "wrap": true
-                          },
-                          {
-                              "type": "Input.Text",
-                              "id": "myName",
-                              "placeholder": "John Doe"
-                          }
-                      ]
-                  }
-              ]
-          }
-      ],
-      "actions": [
-          {
-              "type": "Action.Submit",
-              "title": "Submit"
-          }
-      ]
-   },
-   "This is the fallback text if the client can't render this card");
- }, '**card please** - ask the bot to post a card to the space');
+// Simple exampleframework.hears('card please', (bot, trigger) => {  bot.SendCard(   {      "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",      "type": "AdaptiveCard",      "version": "1.0",      "body": [          {              "type": "ColumnSet",              "columns": [                  {                      "type": "Column",                      "width": 2,                      "items": [                          {                              "type": "TextBlock",                              "text": "Card Sample",                              "weight": "Bolder",                              "size": "Medium"                          },                          {                              "type": "TextBlock",                              "text": "What is your name?",                              "wrap": true                          },                          {                              "type": "Input.Text",                              "id": "myName",                              "placeholder": "John Doe"                          }                      ]                  }              ]          }      ],      "actions": [          {              "type": "Action.Submit",              "title": "Submit"          }      ]   },   "This is the fallback text if the client can't render this card"); }, '**card please** - ask the bot to post a card to the space');
 ```
 <a name="Bot+dmCard"></a>
 
@@ -1337,25 +1100,7 @@ Send a Card to a 1-1 space.
 
 **Example**  
 ```js
-// Simple example
-framework.hears('card for joe please', (bot, trigger) => {
-  bot.dmCard(
-   'joe@email.com',
-   {
-      "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-      "type": "AdaptiveCard",
-      "version": "1.0",
-      "body": [
-          {
-            "type": "TextBlock",
-            "text": "Joe, here is your card!",
-            "weight": "Bolder",
-            "size": "Medium"
-          }
-      ]
-   },
-   "This is the fallback text if the client can't render this card");
- }, '**card for john please** - ask the bot to send a card to joe@email.com in a 1-1 space');
+// Simple exampleframework.hears('card for joe please', (bot, trigger) => {  bot.dmCard(   'joe@email.com',   {      "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",      "type": "AdaptiveCard",      "version": "1.0",      "body": [          {            "type": "TextBlock",            "text": "Joe, here is your card!",            "weight": "Bolder",            "size": "Medium"          }      ]   },   "This is the fallback text if the client can't render this card"); }, '**card for john please** - ask the bot to send a card to joe@email.com in a 1-1 space');
 ```
 <a name="Bot+uploadStream"></a>
 
@@ -1371,16 +1116,7 @@ Upload a file to a room using a Readable Stream
 
 **Example**  
 ```js
-framework.hears('/file', (bot, trigger) => {
-
-  // define filename used when uploading to room
-  var filename = 'test.png';
-
-  // create readable stream
-  var stream = fs.createReadStream('/my/file/test.png');
-
-  bot.uploadStream(stream);
-}, '**\/file** - ask the bot to post a file to the space via the stream method');
+framework.hears('/file', (bot, trigger) => {  // define filename used when uploading to room  var filename = 'test.png';  // create readable stream  var stream = fs.createReadStream('/my/file/test.png');  bot.uploadStream(stream);}, '**\/file** - ask the bot to post a file to the space via the stream method');
 ```
 <a name="Bot+censor"></a>
 
@@ -1407,10 +1143,7 @@ Set Title of Room.
 
 **Example**  
 ```js
-bot.roomRename('My Renamed Room')
-  .then((err) => {
-    console.log(err.message)
-  });
+bot.roomRename('My Renamed Room')  .then((err) => {    console.log(err.message)  });
 ```
 <a name="Bot+store"></a>
 
@@ -1470,11 +1203,7 @@ Trigger Object
 <a name="event_log"></a>
 
 ## "log"
-Framework log event.
-
-Applications may implement a framework.on("log") handler to process
-log messags from the framework, such as details about events that were
-not sent due to mebership rules.  See [Membership-Rules README](./doc/membership-rules-readme.md)
+Framework log event.Applications may implement a framework.on("log") handler to processlog messags from the framework, such as details about events that werenot sent due to mebership rules.  See [Membership-Rules README](./doc/membership-rules-readme.md)
 
 **Kind**: event emitted  
 **Properties**
@@ -1701,25 +1430,7 @@ Bot Spawned.
 
 **Example**  
 ```js
-// DM the user who added bot to a group space
-framework.on('spawn', (bot, flintId, addedById) => {
-    if (!addedById) {
-     // don't say anything here or your bot's spaces will get
-     // spammed every time your server is restarted
-     framework.debug(`Framework spawned a bot object in existing
-        space: ${bot.room.title}`);
-  } else {
-    if ((bot.room.type === 'group') && (addedById)) {
-      // In this example we imagine our bot is only allowed in 1-1 spaces
-      // our bot creates a 1-1 with the addedBy user, and leaves the group space
-      bot.dm(addedById, `I see you added me to the the space "${bot.room.title}", ` +
-        `but I am not allowed in group spaces.  ` +
-        `We can talk here if you like.`).then(() => bot.exit());
-    } else {
-      bot.say(`Thanks for adding me to this space.  Here is what I can do...`);
-    }
-  }
-});
+// DM the user who added bot to a group spaceframework.on('spawn', (bot, flintId, addedById) => {    if (!addedById) {     // don't say anything here or your bot's spaces will get     // spammed every time your server is restarted     framework.debug(`Framework spawned a bot object in existing        space: ${bot.room.title}`);  } else {    if ((bot.room.type === 'group') && (addedById)) {      // In this example we imagine our bot is only allowed in 1-1 spaces      // our bot creates a 1-1 with the addedBy user, and leaves the group space      bot.dm(addedById, `I see you added me to the the space "${bot.room.title}", ` +        `but I am not allowed in group spaces.  ` +        `We can talk here if you like.`).then(() => bot.exit());    } else {      bot.say(`Thanks for adding me to this space.  Here is what I can do...`);    }  }});
 ```
 <a name="event_despawn"></a>
 
@@ -1758,11 +1469,7 @@ Bot Despawned.
 <a name="new_MongoStore_new"></a>
 
 ### new MongoStore(config)
-Creates an instance of the Mongo Storage Adaptor.
-This storage adaptor uses a Mongo database that allows
-bot storage information to persist across server restarts.
-It has been tested with cloud mongo db conections and requires
-mondodb driver 3.4 or greater.
+Creates an instance of the Mongo Storage Adaptor.This storage adaptor uses a Mongo database that allowsbot storage information to persist across server restarts.It has been tested with cloud mongo db conections and requiresmondodb driver 3.4 or greater.
 
 
 | Param | Type | Description |
@@ -1771,12 +1478,7 @@ mondodb driver 3.4 or greater.
 
 **Example**  
 ```js
-var config = {
-  mongoUri: 'mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[database][?options]]',
-  storageCollectionName: 'webexBotFrameworkStorage'
-};
-let MongoStore = require('webex-node-bot-framework/storage/mongo');
-let mongoStore = new MongoStore(config);
+var config = {  mongoUri: 'mongodb://[username:password@]host1[:port1][,...hostN[:portN]][/[database][?options]]',  storageCollectionName: 'webexBotFrameworkStorage'};let MongoStore = require('webex-node-bot-framework/storage/mongo');let mongoStore = new MongoStore(config);
 ```
 <a name="MongoStore+config"></a>
 
@@ -1798,23 +1500,13 @@ Options Object
 <a name="MongoStore+initialize"></a>
 
 ### mongoStore.initialize() ⇒ <code>Promise.&lt;Boolean&gt;</code>
-Initializes the connection to the db.
-Call this, and wait for the return before setting the 
-framework's storage adaptor, and then calling framework.start()
+Initializes the connection to the db.Call this, and wait for the return before setting the framework's storage adaptor, and then calling framework.start()
 
 **Kind**: instance method of [<code>MongoStore</code>](#MongoStore)  
 **Returns**: <code>Promise.&lt;Boolean&gt;</code> - - True if setup  
 **Example**  
 ```js
-// Wait for the connection to the DB to initialize before setting the
- // framework's storage driver and starting framework
- mongoStore.initialize()
-   .then(() => framework.storageDriver(mongoStore))
-   .then(() => framework.start())
-   .catch((e) => {
-     console.error(`Initialization with mongo storage failed: ${e.message}`)
-     process.exit(-1);
-  });
+// Wait for the connection to the DB to initialize before setting the // framework's storage driver and starting framework mongoStore.initialize()   .then(() => framework.storageDriver(mongoStore))   .then(() => framework.start())   .catch((e) => {     console.error(`Initialization with mongo storage failed: ${e.message}`)     process.exit(-1);  });
 ```
 <a name="MongoStore+getName"></a>
 
@@ -1826,11 +1518,7 @@ Get the storage adaptor's name
 <a name="MongoStore+initStorage"></a>
 
 ### mongoStore.initStorage(id, initBotStorageData) ⇒ <code>Promise.&lt;Object&gt;</code>
-Called by the framework, when a bot is spawned,
-this function reads in any existng bot configuration from the DB
-or creates the default one if none is found
-
-In general bot developers should not need to call this method
+Called by the framework, when a bot is spawned,this function reads in any existng bot configuration from the DBor creates the default one if none is foundIn general bot developers should not need to call this method
 
 **Kind**: instance method of [<code>MongoStore</code>](#MongoStore)  
 **Returns**: <code>Promise.&lt;Object&gt;</code> - - bot's initial or previously stored config data  
@@ -1843,9 +1531,7 @@ In general bot developers should not need to call this method
 <a name="MongoStore+store"></a>
 
 ### mongoStore.store(id, key, value) ⇒ <code>Promise.&lt;String&gt;</code> \| <code>Promise.&lt;Number&gt;</code> \| <code>Promise.&lt;Boolean&gt;</code> \| <code>Promise.&lt;Array&gt;</code> \| <code>Promise.&lt;Object&gt;</code>
-Store key/value data.
-
-This method is exposed as bot.store(key, value);
+Store key/value data.This method is exposed as bot.store(key, value);
 
 **Kind**: instance method of [<code>MongoStore</code>](#MongoStore)  
 **Returns**: <code>Promise.&lt;String&gt;</code> \| <code>Promise.&lt;Number&gt;</code> \| <code>Promise.&lt;Boolean&gt;</code> \| <code>Promise.&lt;Array&gt;</code> \| <code>Promise.&lt;Object&gt;</code> - -- stored value  
@@ -1859,9 +1545,7 @@ This method is exposed as bot.store(key, value);
 <a name="MongoStore+recall"></a>
 
 ### mongoStore.recall(id, [key]) ⇒ <code>Promise.&lt;String&gt;</code> \| <code>Promise.&lt;Number&gt;</code> \| <code>Promise.&lt;Boolean&gt;</code> \| <code>Promise.&lt;Array&gt;</code> \| <code>Promise.&lt;Object&gt;</code>
-Recall value of data stored by 'key'.
-
-This method is exposed as bot.recall(key, value);
+Recall value of data stored by 'key'.This method is exposed as bot.recall(key, value);
 
 **Kind**: instance method of [<code>MongoStore</code>](#MongoStore)  
 **Returns**: <code>Promise.&lt;String&gt;</code> \| <code>Promise.&lt;Number&gt;</code> \| <code>Promise.&lt;Boolean&gt;</code> \| <code>Promise.&lt;Array&gt;</code> \| <code>Promise.&lt;Object&gt;</code> - -- recalled value  
@@ -1874,9 +1558,7 @@ This method is exposed as bot.recall(key, value);
 <a name="MongoStore+forget"></a>
 
 ### mongoStore.forget(id, [key]) ⇒ <code>Promise.&lt;String&gt;</code> \| <code>Promise.&lt;Number&gt;</code> \| <code>Promise.&lt;Boolean&gt;</code> \| <code>Promise.&lt;Array&gt;</code> \| <code>Promise.&lt;Object&gt;</code>
-Forget a key or entire store.
-
-This method is exposed as bot.forget(key, value);
+Forget a key or entire store.This method is exposed as bot.forget(key, value);
 
 **Kind**: instance method of [<code>MongoStore</code>](#MongoStore)  
 
@@ -1888,9 +1570,7 @@ This method is exposed as bot.forget(key, value);
 <a name="MongoStore+writeMetric"></a>
 
 ### mongoStore.writeMetric(bot, appData, actor) ⇒ <code>Promise.&lt;Object&gt;</code>
-Write a metrics object to the database
-
-This method is exposed as bot.writeMetric(appData, actor);
+Write a metrics object to the databaseThis method is exposed as bot.writeMetric(appData, actor);
 
 **Kind**: instance method of [<code>MongoStore</code>](#MongoStore)  
 **Returns**: <code>Promise.&lt;Object&gt;</code> - - final data object written  

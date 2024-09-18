@@ -4,11 +4,10 @@ const Webex = require('webex');
 
 // Load adaptive card JSON
 const cardJson = JSON.parse(fs.readFileSync('./docs/input-card.json', 'utf8'));
-const WebexToken = process.env.WEBEX_ACCESS_TOKEN;
 
 // framework options
 const config = {
-  token: webexToken
+  token: "ZGExNDBjOTctZDk3My00MTMzLTgxYTUtNzVkNDYwNTZhMmQxZTdkZDJmZjItZGI1_P0A1_bdd2aed2-da17-481d-bd6f-b43037ee90b7"
 };
 
 // init framework

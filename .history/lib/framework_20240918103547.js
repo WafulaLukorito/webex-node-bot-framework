@@ -379,12 +379,7 @@ Framework.prototype.start = function () {
         agent: httpsProxyAgent
       };
     }
-    // Ensure the token is set properly during Webex initialization
-this.webex = Webex.init({
-  credentials: {
-      access_token: this.options.token // Access the token from the options
-  }
-})
+    this.webex = Webex.init(config);
 
     // determine bot identity
     return this.webex.people.get('me')

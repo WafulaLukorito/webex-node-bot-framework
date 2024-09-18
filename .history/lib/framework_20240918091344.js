@@ -217,8 +217,14 @@ Framework.prototype.debug = function (message) {
  *   });
  */
 Framework.prototype.setWebexToken = function (token) {
-  this.options.token = token;
-  return when.resolve(token); // Immediately resolve the token without testing
+  return this.testWebexToken(token)
+    .then(token => {
+      this.options.token = token;
+      return when(token);
+    })
+    .catch(() => {
+      when.reject(new Error('could not change token, token not valid'));
+    });
 };
 
 /**
@@ -379,12 +385,7 @@ Framework.prototype.start = function () {
         agent: httpsProxyAgent
       };
     }
-    // Ensure the token is set properly during Webex initialization
-this.webex = Webex.init({
-  credentials: {
-      access_token: this.options.token // Access the token from the options
-  }
-})
+    this.webex = Webex.init(config);
 
     // determine bot identity
     return this.webex.people.get('me')
@@ -2245,5 +2246,3 @@ function optionsIncludeNonSupported(options) {
 
   return '';
 }
-
-module.exports = Framework;
